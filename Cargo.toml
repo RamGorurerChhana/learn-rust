@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "my_lib",
+    "hello_world",
+    "pretty_print"
+]
