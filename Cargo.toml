@@ -5,5 +5,6 @@ members = [
     "hello_world",
     "pretty_print",
     "complex_num",
-    "print_list"
+    "print_list",
+    "linked_list"
 ]
