@@ -16,3 +16,7 @@ This repository contains some practice code samples for my journey through learn
     - Define a struct with generic type `T`. 
     - Implementation block of generic type `T`. 
     - Trait bounds.
+- [Linked List (Enum based)](https://github.com/RamGorurerChhana/learn-rust/tree/main/linked_list)
+    - Define a Linked List (using `enum`).
+    - prepend and insert functionality.
+    - find functionality.
