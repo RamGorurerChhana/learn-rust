@@ -4,5 +4,6 @@ members = [
     "my_lib",
     "hello_world",
     "pretty_print",
-    "complex_num"
+    "complex_num",
+    "print_list"
 ]
