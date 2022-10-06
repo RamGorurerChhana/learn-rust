@@ -7,5 +7,6 @@ members = [
     "complex_num",
     "print_list",
     "linked_list",
-    "from_trait"
+    "from_trait",
+    "fizzbuzz"
 ]

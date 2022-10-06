@@ -7,6 +7,8 @@ This repository contains some practice code samples for my journey through learn
     - Simple `Hello World` example code.
 - [String formatting](https://github.com/RamGorurerChhana/learn-rust/tree/main/pretty_print)
     - Different examples of string formatting.
+- [Infamous Fizzbuzz](https://github.com/RamGorurerChhana/learn-rust/tree/main/fizzbuzz)
+    - Infamous fizzbuzz in Rust.
 - [Complex number arithmetic](https://github.com/RamGorurerChhana/learn-rust/tree/main/complex_num)
     - Usage of struct 
     - Implementation of struct methods
@@ -20,3 +22,5 @@ This repository contains some practice code samples for my journey through learn
     - Define a Linked List (using `enum`).
     - push and pop functionality.
     - find functionality.
+- [From Trait Implementation](https://github.com/RamGorurerChhana/learn-rust/tree/main/from_trait)
+    - Conversion between two custom data types.
