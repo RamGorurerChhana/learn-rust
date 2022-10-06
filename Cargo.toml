@@ -6,5 +6,6 @@ members = [
     "pretty_print",
     "complex_num",
     "print_list",
-    "linked_list"
+    "linked_list",
+    "from_trait"
 ]
