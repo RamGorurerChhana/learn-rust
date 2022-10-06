@@ -19,59 +19,42 @@ impl LinkedList {
         LinkedList::Nil
     }
 
-    // prepend node to the linked list
+    // push node to the linked list
     // Note: self parameter is not a reference so it takes the ownership
-    fn prepend(self, val: i32) -> Self {
+    fn push(self, val: i32) -> Self {
         Self::Node(val, Box::new(self))
     }
 
-    // insert element at a position in the list
-    // Note: self parameter is a mutable reference
-    // does not take the ownership
-    fn insert(&mut self, val: i32, pos: usize) {
-        let mut target = self;
-        for _ in 0..pos {
-            match target {
-                Self::Nil => panic!("IndexOutOfBoundsError"),
-                Self::Node(_, next) => {
-                    target = next;
-                }
-            }
+    // pop node from the head of the linked list
+    // Note: self parameter is not a reference so it takes the ownership
+    // it returns Option because the list could be empty
+    fn pop(self) -> (Self, Option<i32>) {
+        match self {
+            Self::Nil => (self, None),
+            Self::Node(v, next) => (*next, Some(v)),
         }
-        // TODO: Implement the below line without cloning the list
-        // Cloning is an expensive operation
-        let list = target.clone().prepend(val);
-        *target = list;
     }
 
     // calculate length of the linked list
     fn len(&self) -> usize {
         match self {
             Self::Node(_, next) => 1 + next.len(),
-            Self::Nil => 0_usize,
+            Self::Nil => 0,
         }
     }
 
-    // find an element in the linked list returns Option<usize>
-    // if the element is found then return Some(index)
-    // index starts from zero. otherwise None.
-    fn find(&self, val: i32) -> Option<usize> {
+    // find an element in the linked list returns Option<&i32>
+    fn find(&self, val: i32) -> Option<&i32> {
         match self {
-            Self::Node(v, _) if *v == val => Some(0),
-            Self::Node(v, next) if *v != val => {
-                if let Some(v) = next.find(val) {
-                    Some(v + 1)
-                } else {
-                    None
-                }
-            }
+            Self::Node(v, _) if *v == val => Some(v),
+            Self::Node(v, next) if *v != val => next.find(val),
             _ => None,
         }
     }
 }
 
 impl Display for LinkedList {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+    fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
             Self::Node(v, next) => match **next {
                 Self::Nil => write!(f, "{}", v),
@@ -84,15 +67,19 @@ impl Display for LinkedList {
 
 fn main() {
     println!("Enum based Linked List representation");
-    let mut list = LinkedList::new();
-    list = list.prepend(30);
-    list = list.prepend(32);
-    list = list.prepend(43);
+    let list = LinkedList::new();
+    let list = list.push(30);
+    let list = list.push(32);
+    let list = list.push(43);
     println!("{list:?}");
     println!("{}", list.len());
     println!("{:?}", list.find(300));
-    list.insert(45, 1);
     println!("{list}");
+    println!("size of `list` in bytes: {}", std::mem::size_of_val(&list));
+    let (list, e) = list.pop();
+    println!("{e:?}");
+    println!("{list}");
+    println!("size of `list` in bytes: {}", std::mem::size_of_val(&list));
 }
 
 #[cfg(test)]
@@ -108,33 +95,30 @@ mod test {
     }
 
     #[test]
-    fn test_prepend() {
+    fn test_list() {
         let list = LinkedList::new();
-        let list = list.prepend(1);
-        let list = list.prepend(2);
-        let list = list.prepend(3);
+        let list = list.push(1);
+        let list = list.push(2);
+        let list = list.push(3);
         assert_eq!(3, list.len());
         assert_eq!("3 -> 2 -> 1".to_string(), list.to_string());
-        assert_eq!(Some(0), list.find(3));
-    }
+        assert_eq!(Some(&3), list.find(3));
+        assert_eq!(None, list.find(4));
 
-    #[test]
-    fn test_insert() {
-        let mut list = LinkedList::new();
-        list.insert(0, 0);
-        list.insert(1, 1);
-        list.insert(2, 2);
-        list.insert(3, 3);
-        assert_eq!(4, list.len());
-        assert_eq!("0 -> 1 -> 2 -> 3".to_string(), list.to_string());
-        assert_eq!(Some(3), list.find(3));
-        list.insert(99, 2);
-        assert_eq!(Some(2), list.find(99));
-    }
-    #[test]
-    #[should_panic]
-    fn test_insert_invalid() {
-        let mut list = LinkedList::new();
-        list.insert(0, 1);
+        let (list, elem) = list.pop();
+        assert_eq!(2, list.len());
+        assert_eq!(Some(3), elem);
+
+        let (list, elem) = list.pop();
+        assert_eq!(1, list.len());
+        assert_eq!(Some(2), elem);
+
+        let (list, elem) = list.pop();
+        assert_eq!(0, list.len());
+        assert_eq!(Some(1), elem);
+
+        let (list, elem) = list.pop();
+        assert_eq!(0, list.len());
+        assert_eq!(None, elem);
     }
 }
