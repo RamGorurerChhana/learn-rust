@@ -8,5 +8,6 @@ members = [
     "print_list",
     "linked_list",
     "from_trait",
-    "fizzbuzz"
+    "fizzbuzz",
+    "prime_number_game"
 ]
